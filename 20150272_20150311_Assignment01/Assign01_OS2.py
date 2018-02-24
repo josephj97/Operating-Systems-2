@@ -30,6 +30,8 @@ def bankersAlg(avail, alloc, maximum):
             cnt += 1
             if cnt == len(need):
                 break
+            else:
+                status += ", "
 
         elif lastvisit == i:
             status = "Unsafe state"
