@@ -44,14 +44,14 @@ def bankersAlg(avail, alloc, maximum):
     return status
 
 
-def take_2d_array(length, width):
-    print("Please Enter {} * {} grid".format(length, width))
+def take_2d_array(length, width, Str):
+    print("Please Enter", Str, "{} * {} grid".format(length, width))
     arr = list(list(map(int, input().split()))for i in range(length))
     return arr
 
 
-def take_1d_array(length):
-    print("Please Enter array of length {} ".format(length))
+def take_1d_array(length ,Str):
+    print("Please Enter", Str , "array of length {} ".format(length))
     # arr = [int(input()) for i in range(length)]
     arr = list(map(int, input().split()))
     return arr
@@ -112,14 +112,14 @@ def main():
     # ]
     # available = [3, 3, 2]
 
-    available = take_1d_array(resources)
-    print("Avail: ", available)
-    maximum = take_2d_array(process, resources)
-    print("max  : ", maximum)
-    allocation = take_2d_array(process, resources)
-    print("alloc:", allocation)
+    available = take_1d_array(resources,'Available')
+    print("Available: ", available)
+    maximum = take_2d_array(process, resources, 'Maximum')
+    print("Maximum: ", maximum)
+    allocation = take_2d_array(process, resources, 'Allocation')
+    print("allocation:", allocation)
     available = calc_available(available, allocation)
-    print("New Available is : ",available)
+    print("New Available is: ", available)
 
     print(bankersAlg(available, allocation, maximum))
 
