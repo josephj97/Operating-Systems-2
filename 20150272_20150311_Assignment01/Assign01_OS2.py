@@ -71,16 +71,17 @@ def request_resources(avail, alloc, maximum, pnum, request):
     need = [[maximum[i][j] - alloc[i][j] for j in range(len(maximum[i]))]for i in range(len(maximum))]
 
     if compare_arrays(need[pnum], request) and compare_arrays(avail, request):
-        tempavail = avail
-        tempalloc = alloc
-        tempmaximum = maximum
         avail = [avail[i] - request[i] for i in range(len(request))]
         need[pnum] = [need[pnum][i] - request[i] for i in range(len(request))]
         alloc[pnum] = add_arrays(alloc[pnum], request)
         status = bankersAlg(avail, alloc, maximum)
         if status == "Unsafe state":
-            print("Unsafe request")
-            return tempavail, tempalloc, tempmaximum
+            print("Unsafe request1")
+            avail = add_arrays(avail, request)       #[avail[i] + request[i] for i in range(len(request))]
+            need[pnum] = add_arrays(need[pnum], request)  # [need[pnum][i] + request[i] for i in range(len(request))]
+            alloc[pnum] = [alloc[pnum][i] - request[i] for i in range(len(request))]
+
+            return avail, alloc, maximum
         else:
              print("Safe request")
              return avail, alloc, maximum
@@ -120,9 +121,19 @@ def main():
     available = calc_available(available, allocation)
     print("New Available is : ",available)
 
-
     print(bankersAlg(available, allocation, maximum))
-    print(request_resources(available,allocation,maximum,1,[1,0,2]))
+
+    while True:
+        query = input().split()
+        if len(query) == 0:
+            continue
+        if query[0].lower() == "quit":
+            break
+        query = list(map(int, query[1:]))
+        available, allocation, maximum = request_resources(available, allocation, maximum, int(query[0]), query[1:])
+        print("Available : ", available)
+        print("maximum   : ", maximum)
+        print("allocated :", allocation)
 
 
 if __name__ == "__main__":
@@ -131,13 +142,11 @@ if __name__ == "__main__":
 '''
 3 3 2
 10 5 7
-
 7 5 3
 3 2 2
 9 0 2 
 2 2 2
 4 3 3
-
 0 1 0
 2 0 0
 3 0 2
